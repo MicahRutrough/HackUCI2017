@@ -19,7 +19,9 @@
 	"tabs",
 	"alarms",
 	"debugger",
-	"https://ajax.googleapis.com/"
+	"https://ajax.googleapis.com/",
+	"geolocation",
+	"http://api.openweathermap.org/"
 	]
 }
 
