@@ -4,13 +4,6 @@ body
 	background-color: #eee;
 }
 
-/*path
-{ 
-    stroke: #00ff00;
-    stroke-width: 2;
-    fill: none;
-}*/
-
 .axis path,
 .axis line
 {
