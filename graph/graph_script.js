@@ -92,6 +92,21 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
        .attr("transform", "translate(0," + height + ")")
        .call(xAxis);
 }
+
+var getJsonFromStorage = function()
+{
+	chrome.storage.sync.get(null, function(items)
+	{
+		var allKeys = Object.keys(items);
+		for (o in allKeys)
+		{
+			console.log(o);
+		}
+	});
+}
+
+
+/*
   
 var jstring = '[\
 	{\
@@ -138,3 +153,7 @@ var jstring = '[\
 
 data = JSON.parse(jstring)
 draw_graph(data, 'count', 'score', color1 = 'red', color2 = 'blue')
+
+*/
+
+data = getJsonFromStorage();
