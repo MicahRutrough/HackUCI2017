@@ -1,0 +1,31 @@
+body
+{
+	background-color: #6699ee;
+	width:640px;
+	height:320px;
+}
+
+button
+{
+	background-color: #efefef;
+	cursor:pointer;
+	border: solid #000000 2px;
+	padding:1px;
+}
+button: hover
+{
+	background-color: #aaaa00;
+	cursor:pointer;
+	border: solid #000000 2px;
+}
+
+.dropdown
+{
+	position: relative;
+	display: inline-block;
+}
+
+#menu
+{
+	display: inline;
+}

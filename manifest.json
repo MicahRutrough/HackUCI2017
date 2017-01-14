@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+	"name": "Hello, World!",
+	"description": "This is a test chrome app for HackUci",
+	"version": "0.1",
+	"manifest_version": 2,
+	"browser_action":
+	{
+		"default_icon": "smile-16.png"
+	},
+	"background":
+	{
+		"scripts": ["background.js"],
+		"persistent": true
+	},
+	"permissions":
+	[
+	"activeTab",
+	"tabs",
+	"alarms",
+	"debugger",
+	"https://ajax.googleapis.com/"
+	]
+}
+
