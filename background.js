@@ -5,7 +5,7 @@ var alarmName = "popup_alarm";
 chrome.alarms.create(alarmName,
 {
 	delayInMinutes: 0,
-	periodInMinutes: 1
+	periodInMinutes: 1000
 });
 
 ////////////////////////////////////////////////////////
@@ -13,7 +13,6 @@ chrome.alarms.create(alarmName,
 ////////////////////////////////////////////////////////
 var askQuestion = function()
 {
-	return
 	var win = window.open("window.html", '_blank');
 	win.focus();
 }
@@ -31,7 +30,7 @@ chrome.alarms.onAlarm.addListener(function(alarm)
 ////////////////////////////////////////////////////////
 window.addEventListener('unload', function(event)
 {
-	console.log("You leg!");
+	alert("CLOSED")
 });  
 
 
@@ -42,4 +41,3 @@ chrome.browserAction.onClicked.addListener(function(tab)
 {
 	askQuestion();
 });
-
