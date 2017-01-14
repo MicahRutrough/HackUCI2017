@@ -8,7 +8,8 @@ var OpenWeatherConstants = {
     APP_KEY : "APPID=e0d69044d0b30f6f989f67de783e0cee",
 	UNITS : "units=",
 	FAHRENHEIGHT: "imperial",
-	CELCIUS : "metric"
+	CELCIUS : "metric",
+    test : 1
 
 }
 
@@ -60,47 +61,21 @@ function run_save(button_pressed)
                 var temperature = response.main.temp;
                 var d = new Date();
 
-				console.log(temperature);
+                var key = d.toISOString();
+                var object_value = {'date' : d.toISOString().substring(0, 10), 'temp': temperature , 'mood': button_pressed};
+                var jsonfile = {};
+                jsonfile[key] = object_value;
 
-                chrome.storage.sync.clear();
-
-                var empty;
-                chrome.storage.sync.get('data', function(item){
-                    empty = JSON.stringify(item) == "{}"
-                    console.log(empty);
+                chrome.storage.sync.set(jsonfile, function() {
+                    // Notify that we saved.
+                    console.log('Settings saved');
 
                 });
-                if(empty == true){
-                    var items =  [];
-                    items.push({'date': d.getDate(), 'temp': temperature , 'mood': button_pressed});
-                    chrome.storage.sync.set({'data': items}, function() {
-                        // Notify that we saved.
-                        console.log('Settings saved1');
-                    });
 
-                    chrome.storage.sync.get('data', function(item){
-                        console.log(JSON.stringify(item));
-                    });
-                }
-                else{
-                    var thearray;
-                    chrome.storage.sync.get('data', function(item){
-                        thearray = item.push({'date': d.getDate(), 'temp': temperature , 'mood': button_pressed});
-                    });
-                    chrome.storage.sync.set({'data': thearray}, function() {
-                        // Notify that we saved.
-                        console.log('Settings saved2');
-                    });
-                    chrome.storage.sync.get('data', function(item){
-                        console.log(JSON.stringify(item));
-                    });
-
-                }
-
-
-
-
-
+                chrome.storage.sync.get(null, function (temp) {
+                    console.log(JSON.stringify(temp));
+                });
+                //chrome.storage.sync.clear();
 
                 /*try{
                     var keyCheck = chrome.storage.sync.get('data');
