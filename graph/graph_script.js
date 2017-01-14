@@ -56,7 +56,8 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 	x.domain(d3.extent(data.map(function(d) { return d.date; })));
 	
 	//Draw left graph
-	y.domain([0, d3.max(data.map(function(d) { return d[var1]; }))]);
+	var gmax = d3.max(data.map(function(d) { return d[var1]; }));
+	y.domain([0, gmax*1.2]);
 	focus.append("path")
        .datum(data)
        .attr("clip-path", "url(#clip)")
@@ -71,7 +72,8 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
        .call(yAxisLeft);
 	   
 	//Draw right graph
-	y.domain([0, d3.max(data.map(function(d) { return d[var2]; }))]);
+	var gmax = d3.max(data.map(function(d) { return d[var2]; }));
+	y.domain([0,  gmax *1.2]);
 	focus.append("path")
        .datum(data)
        .attr("clip-path", "url(#clip)")
@@ -84,8 +86,6 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 		.attr("class", "y axis")
 		.style("fill",color2)
 		.call(yAxisRight);
-
-		
 		
 	focus.append("g")
        .attr("class", "x axis")
@@ -98,10 +98,13 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 	chrome.storage.sync.get(null, function(items)
 	{
 		var json_values = Object.values(items);
+		var json_keys = Object.keys(items);
 		var delimeter = "";
 		var json_string = "[";
 		for (v in json_values)
 		{
+			if (json_keys[v] == "name" || json_keys[v] == "addr")
+				continue;
 			json_string += delimeter;
 			json_string += JSON.stringify(json_values[v]);
 			delimeter = ",";

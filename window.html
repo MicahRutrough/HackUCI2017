@@ -15,24 +15,45 @@
 	
 	<body>
 		<a href="graph/graph.html">GRAPH</a>
+		<button class="my_popup_open">Settings</button>
+		<div id="my_popup">
+
+			<form style="text-align: center;">
+			<h4>Please enter your name</h4>
+			<input id = "get_name"; value = "" ></input>
+			<h4>Enter your home address</h4>
+			<input id = "get_address"; value = ""></input>
+			</form>
+
+			<!-- Add an optional button to close the popup -->
+			<div style="height:15%;"></div>
+			<button id = "close_popup" class="close_popup">Done</button>
+
+		</div>
+		
 		<div id="menu">
 			<div class = "container">
 				<div class = "row">
 					<div class = "col-lg-12">
-						<h1>Hello, Michael</h1>
+						<h1 id = "name_title">Hello, Michael</h1>
 						<img src = "https://www.meditainment.com/images/dmImage/SourceImage/country-meadow.jpg">
 						<h2>How are you feeling today?</h2>
-					<a class="moodbutton btn btn-default btn-md" id = "button1"><i class="fa fa-smile-o" aria-hidden="true"></i>Very Happy!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button2">Happy!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button3">Slightly Happy!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button4"><i class="fa fa-meh-o" aria-hidden="true"></i>Meh!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button5">Slightly Sad!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button6">Sad!</a>
-					<a class="moodbutton btn btn-default btn-md" id = "button7"><i class="fa fa-frown-o" aria-hidden="true"></i>Very Sad!</a>
+						<div id="moodbuttons">
+							<a class="moodbutton btn btn-default btn-md" id = "button1"><i class="fa fa-smile-o" aria-hidden="true"></i>Very Happy!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button2">Happy!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button3">Slightly Happy!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button4"><i class="fa fa-meh-o" aria-hidden="true"></i>Meh!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button5">Slightly Sad!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button6">Sad!</a>
+							<a class="moodbutton btn btn-default btn-md" id = "button7"><i class="fa fa-frown-o" aria-hidden="true"></i>Very Sad!</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script src="jquery-1.8.2.js"></script>
+		<script src="jquery.popupoverlay.js"></script>
+		<script src="jquery-ui.js"></script>
 		<script type='text/javascript' src='script.js'></script>
 	</body>
 </html>

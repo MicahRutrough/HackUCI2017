@@ -1,4 +1,11 @@
-var dateadd = 5;
+$(document).ready(function()
+{
+	// Initialize the plugin
+	$('#my_popup').popup();
+
+});
+
+var dateadd = 0;
 
 var OpenWeatherConstants = {
 
@@ -38,8 +45,29 @@ for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', clickMoodButton, false);
 }
 
+
+var clicked_already = false;
 function run_save(buttoncode)
 {
+
+	if (!clicked_already)
+	{
+		clicked_already = true;
+	}
+	else
+	{
+		return
+	}
+
+	var apiCalls = 4;
+	var api_done = function()
+	{
+		apiCalls --;
+		if (apiCalls == 0)
+		{
+			//window.close();
+		}
+	}
 
     var startPos;
     var geoOptions = {
@@ -59,10 +87,11 @@ function run_save(buttoncode)
         console.log(air_url);
 
         invokeGetInfo(weather_url, air_url);
-
+		api_done()
     };
     var geoError = function(error) {
         console.log('Error occurred. Error code: ' + error.code);
+		api_done()
     };
 
     var invokeGetInfo = function (w_url, a_url) {
@@ -132,17 +161,17 @@ function run_save(buttoncode)
         chrome.storage.sync.set(jsonfile, function() {
             // Notify that we saved.
             console.log('Settings saved');
+			api_done()
         });
 
         chrome.storage.sync.get(null, function (temp) {
             console.log(JSON.stringify(temp));
+			api_done()
         });
-
-
-
     };
 
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+	api_done()
 };
 
 
@@ -172,7 +201,51 @@ function fetchCoordsFromAddress(address) {
     };
     xhr.open("GET", gMapUrl, true);
     xhr.send();
-
-
-
 }
+
+var get_info = function()
+{
+	var json_array;
+	chrome.storage.sync.get(null, function (temp)
+	{
+		json_array = temp;
+		console.log(temp);
+		if (!temp["name"] || !temp["addr"])
+		{
+			$('#my_popup').popup("show");
+		}
+		if (temp["name"] && temp["addr"])
+		{
+			var title = document.getElementById("name_title");
+			title.innerHTML = "Hello, " + temp["name"];
+			var name = document.getElementById("get_name");
+			var addr = document.getElementById("get_address");
+			name.value = temp["name"];
+			addr.value  = temp["addr"];
+		}
+	});
+
+	document.getElementById("close_popup").addEventListener('click', function()
+	{
+		var name = document.getElementById("get_name").value;
+		var addr = document.getElementById("get_address").value;
+		if (name=="" || addr == "")
+		{
+			 $( "#my_popup" ).effect( "shake" );
+			 return
+		}
+		json_array["name"] = name;
+		json_array["addr"] = addr;
+		chrome.storage.sync.set(json_array, function()
+		{
+			// Notify that we saved.
+			console.log('Settings saved');
+        });
+		var title = document.getElementById("name_title");
+		title.innerHTML = "Hello, " + name;
+		$('#my_popup').popup("hide");
+	});
+}
+
+get_info()
+

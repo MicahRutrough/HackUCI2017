@@ -14,6 +14,10 @@ h1{
 	font-family:'Lobster',Georgia, serif;
 	font-size:45px;
 }
+h4
+{
+	font-family:'Lobster',Georgia, serif;
+}
 
 #menu
 {
@@ -58,4 +62,31 @@ img{
 i{
 	padding: 3%;
 	margin:1px;
+}
+
+.my_popup_open
+{
+		font-family:'Lobster',Georgia, serif;
+}
+
+#my_popup
+{
+	background-color: #ddd;
+	width: 500px;
+	height: 300px;
+	border-radius: 24px;
+	font-family:'Lobster',Georgia, serif;
+}
+
+input
+{
+	width: 150px;
+	font-family:'Lobster',Georgia, serif;
+}
+
+.close_popup
+{
+  margin-left: 200px ;
+  width: 100px;
+  font-family:'Lobster',Georgia, serif;
 }
