@@ -1,4 +1,4 @@
-
+var dateadd = 5;
 
 var OpenWeatherConstants = {
 
@@ -62,7 +62,7 @@ function run_save(buttoncode)
                 var response = JSON.parse(xhr.responseText);
                 var temperature = response.main.temp;
                 var date = new Date();
-
+				date.setDate(date.getDate() +  dateadd)
                 var key = date.toISOString();
                 var day = date.getDate();
                 var monthIndex = date.getMonth();
