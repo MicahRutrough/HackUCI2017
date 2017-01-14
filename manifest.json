@@ -21,7 +21,8 @@
 	"debugger",
 	"https://ajax.googleapis.com/",
 	"geolocation",
-	"http://api.openweathermap.org/"
+	"http://api.openweathermap.org/",
+	"storage"
 	]
 }
 

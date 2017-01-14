@@ -81,8 +81,12 @@ chrome.browserAction.onClicked.addListener(function(tab)
     var invokeWeatherApi = function (url) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
+            if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.responseText);
+                chrome.storage.sync.set({'value': xhr.responseText}, function() {
+                    // Notify that we saved.
+                    console.log('Settings saved');
+                });
             }
         }; // Implemented elsewhere.
         xhr.open("GET", url, true);
@@ -90,6 +94,8 @@ chrome.browserAction.onClicked.addListener(function(tab)
     };
 
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+
+
 
 
 
