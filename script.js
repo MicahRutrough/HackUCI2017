@@ -11,7 +11,16 @@ var OpenWeatherConstants = {
 	CELCIUS : "metric",
     test : 1
 
-}
+};
+
+var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+];
+
+
 
 
 var classname = document.getElementsByClassName("moodbutton");
@@ -24,6 +33,17 @@ var clickMoodButton = function() {
 for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', clickMoodButton, false);
 }
+
+document.getElementById("check_storage").addEventListener("click", function() {
+
+    chrome.storage.sync.get(null, function(items) {
+        var allValues = Object.values(items);
+        var arrayLength = allValues.length;
+        for (var i = 0; i < arrayLength; i++) {
+            alert(allValues[i]['date']);
+        }
+    });
+});
 
 function run_save(buttoncode)
 {
@@ -52,10 +72,17 @@ function run_save(buttoncode)
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
                 var temperature = response.main.temp;
-                var d = new Date();
+                var date = new Date();
 
-                var key = d.toISOString();
-                var object_value = {'date' : d.toISOString().substring(0, 10), 'temp': temperature , 'mood': buttoncode};
+                var key = date.toISOString();
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var twoDigitsYear = parseInt(date.getFullYear().toString().substr(2,2), 10);
+
+                var dateString = day + '-' + monthNames[monthIndex].substring(0, 3) + '-' + twoDigitsYear;
+
+
+                var object_value = {'date' : dateString, 'temp': temperature , 'mood': buttoncode};
                 var jsonfile = {};
                 jsonfile[key] = object_value;
 
