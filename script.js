@@ -7,9 +7,11 @@ var OpenWeatherConstants = {
     LAT : "lat=",
     LON : "lon=",
 	UNITS : "units=",
-	FAHRENHEIGHT: "imperial",
-	CELCIUS : "metric"
+	FAHRENHEIT: "imperial",
+	CELSIUS : "metric"
 };
+
+var GMAP_BASE_URL = "http://maps.google.com/maps/api/geocode/json?address=";
 var OpenAirConstants = {
     AIR_QUALITY_BASE_URL: "http://api.breezometer.com/baqi/?",
     AIR_QUALITY_API_KEY: "key=f3e5d52a386b433f828b1a5683a612ec",
@@ -30,7 +32,6 @@ var classname = document.getElementsByClassName("moodbutton");
 var clickMoodButton = function() {
     var id_attr = this.getAttribute("id");
     run_save(parseInt(id_attr.substring(6)));
-    //alert("Move to next string");
 };
 
 for (var i = 0; i < classname.length; i++) {
@@ -43,13 +44,13 @@ function run_save(buttoncode)
     var startPos;
     var geoOptions = {
         timeout: 10 * 1000
-    }
+    };
 
     var geoSuccess = function(position) {
         startPos = position;
         var weather_url = OpenWeatherConstants.WEATHER_BASE_URL + OpenWeatherConstants.LAT + startPos.coords.latitude + "&" +
             OpenWeatherConstants.LON + startPos.coords.longitude + "&" + OpenWeatherConstants.WEATHER_APP_KEY + "&" +
-			OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIGHT;
+			OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
         console.log(weather_url);
 
 
@@ -143,3 +144,35 @@ function run_save(buttoncode)
 
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 };
+
+
+
+function fetchCoordsFromAddress(address) {
+    address = address.replace(/\s/g, "+");
+    var gMapUrl = GMAP_BASE_URL + address;
+    var xhr = new XMLHttpRequest();
+    var latitude, longitude;
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            var json = JSON.parse(xhr.responseText);
+
+          //  if(json["results"] && json["results"]["geometry"] && json["results"]["geometry"]["location"]) {
+
+                latitude = json["results"][0]["geometry"]["location"]["lat"];
+                longitude = json["results"][0]["geometry"]["location"]["lng"];
+
+                var url = OpenWeatherConstants.BASE_URL + OpenWeatherConstants.LAT + latitude + "&" +
+                    OpenWeatherConstants.LON + longitude + "&" + OpenWeatherConstants.APP_KEY + "&" +
+                    OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
+         //   }
+
+        }
+    };
+    xhr.open("GET", gMapUrl, true);
+    xhr.send();
+
+
+
+}

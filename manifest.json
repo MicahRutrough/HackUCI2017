@@ -22,6 +22,7 @@
 	"https://ajax.googleapis.com/",
 	"geolocation",
 	"http://api.openweathermap.org/",
+	"http://maps.google.com/",
 	"storage"
 	]
 }
