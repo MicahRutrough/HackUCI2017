@@ -93,67 +93,15 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
        .call(xAxis);
 }
 
-var getJsonFromStorage = function()
+var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 {
+	
 	chrome.storage.sync.get(null, function(items)
 	{
-		var allKeys = Object.keys(items);
-		for (o in allKeys)
-		{
-			console.log(o);
-		}
+		var json = Object.values(items);
+		console.log(json)
+		draw_graph(json, var1, var2, color1=color1, color2=color2);
 	});
 }
 
-
-/*
-  
-var jstring = '[\
-	{\
-		"date":"2013-09-01",\
-		"count":1,\
-		"score": 4\
-	},\
-	{\
-		"date":"2013-09-02",\
-		"count":6,\
-		"score": 4\
-	},\
-	{\
-		"date":"2013-09-03",\
-		"count":6,\
-		"score": 5\
-	},\
-	{\
-		"date":"2013-09-04",\
-		"count":4,\
-		"score": 3\
-	},\
-	{\
-		"date":"2013-09-05",\
-		"count":9,\
-		"score": 5\
-	},\
-	{\
-		"date":"2013-09-06",\
-		"count":158,\
-		"score": 5\
-	},\
-	{\
-		"date":"2013-09-07",\
-		"count":107,\
-		"score": 4\
-	},\
-	{\
-		"date":"2013-09-08",\
-		"count":124,\
-		"score": 6\
-	}\
-]'
-
-data = JSON.parse(jstring)
-draw_graph(data, 'count', 'score', color1 = 'red', color2 = 'blue')
-
-*/
-
-data = getJsonFromStorage();
+drawJsonGraph("mood","temp",color1="#9465d4",color2="red")
