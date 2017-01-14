@@ -7,7 +7,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 	var x = d3.time.scale().range([0, width]),
-		y = d3.scale.linear().range([height, 16]);
+		y = d3.scale.linear().range([height, 25]);
 
 	var xAxis = d3.svg.axis().scale(x).orient("bottom"),
 		yAxisLeft = d3.svg.axis().scale(y).orient("left"),
@@ -95,12 +95,20 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 
 var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 {
-	
 	chrome.storage.sync.get(null, function(items)
 	{
-		var json = Object.values(items);
-		console.log(json)
-		draw_graph(json, var1, var2, color1=color1, color2=color2);
+		var json_values = Object.values(items);
+		var delimeter = "";
+		var json_string = "[";
+		for (v in json_values)
+		{
+			json_string += delimeter;
+			json_string += JSON.stringify(json_values[v]);
+			delimeter = ",";
+		}
+		json_string += "]";
+		console.log(json_string);
+		draw_graph(JSON.parse(json_string), var1, var2, color1=color1, color2=color2);
 	});
 }
 
