@@ -1,19 +1,61 @@
 body
 {
-	background-color: #6699ee;
-	width:640px;
-	height:320px;
-}
+	background:url("http://www.designbolts.com/wp-content/uploads/2012/12/simple-pattern-white-seamless-website-background.jpg")
+	no-repeat center center;
+	display: block;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-attachment: fixed;
 
-button
-{
-	background-color: #efefef;
-	cursor:pointer;
-	border: solid #000000 2px;
-	padding:1px;
+}
+h1{
+	font-family:'Lobster',Georgia, serif;
+	font-size:45px;
 }
 
 #menu
 {
-	display: inline;
+	text-align: center;
+}
+.container{
+	margin-top:150px;
+	text-align:center;
+	margin-right: auto;
+	margin-left:auto;
+	font-family: 'Roboto',Georgia, serif;
+}
+
+.btn-default{
+	border-color: black;
+	display: inline-block;
+	box-shadow: 0 17px 20px -10px rgba(0,0,0,0.4);
+	background:#e74c3c;
+	color: #ecf0f1;
+	border-width: 0;
+	cursor: pointer;
+	line-height: normal;
+	position: relative;
+	transition: all ease-in-out 300ms;
+	width:120px;
+	height:35px;
+	text-align: center;
+	margin: 0.7%;
+}
+img{
+	border-radius:45%;
+	max-width:400px;
+	max-height:250px;
+	padding: 1%;
+}
+.btn-default:hover{
+	background: #e74c3c;
+	box-shadow: 0 57px 20px -20px rgba(0,0,0,0.3);
+	transform: translate(0px,-3px);
+}
+
+i{
+	padding: 3%;
+	margin:1px;
 }
