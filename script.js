@@ -34,17 +34,6 @@ for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', clickMoodButton, false);
 }
 
-document.getElementById("check_storage").addEventListener("click", function() {
-
-    chrome.storage.sync.get(null, function(items) {
-        var allValues = Object.values(items);
-        var arrayLength = allValues.length;
-        for (var i = 0; i < arrayLength; i++) {
-            alert(allValues[i]['date']);
-        }
-    });
-});
-
 function run_save(buttoncode)
 {
 
@@ -79,7 +68,7 @@ function run_save(buttoncode)
                 var monthIndex = date.getMonth();
                 var twoDigitsYear = parseInt(date.getFullYear().toString().substr(2,2), 10);
 
-                var dateString = day + '-' + monthNames[monthIndex].substring(0, 3) + '-' + twoDigitsYear;
+                var dateString = date.toISOString().substring(0, 10);
 
 
                 var object_value = {'date' : dateString, 'temp': temperature , 'mood': buttoncode};
