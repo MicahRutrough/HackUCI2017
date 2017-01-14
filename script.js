@@ -13,26 +13,19 @@ var OpenWeatherConstants = {
 
 }
 
-document.getElementById("button1").addEventListener("click", function()
-{
-	alert("Pressed button1");
-	run_save("button1");
-});
 
-document.getElementById("button2").addEventListener("click", function()
-{
-	alert("Pressed button2");
-    run_save("button2");
-});
+var classname = document.getElementsByClassName("moodbutton");
 
-document.getElementById("button3").addEventListener("click", function()
-{
-	alert("Pressed button3");
-    run_save("button3");
-});
+var clickMoodButton = function() {
+    var id_attr = this.getAttribute("id");
+    run_save(parseInt(id_attr.substring(6)));
+};
 
+for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('click', clickMoodButton, false);
+}
 
-function run_save(button_pressed)
+function run_save(buttoncode)
 {
 
     var startPos;
@@ -62,7 +55,7 @@ function run_save(button_pressed)
                 var d = new Date();
 
                 var key = d.toISOString();
-                var object_value = {'date' : d.toISOString().substring(0, 10), 'temp': temperature , 'mood': button_pressed};
+                var object_value = {'date' : d.toISOString().substring(0, 10), 'temp': temperature , 'mood': buttoncode};
                 var jsonfile = {};
                 jsonfile[key] = object_value;
 
@@ -75,46 +68,11 @@ function run_save(button_pressed)
                 chrome.storage.sync.get(null, function (temp) {
                     console.log(JSON.stringify(temp));
                 });
-                //chrome.storage.sync.clear();
-
-                /*try{
-                    var keyCheck = chrome.storage.sync.get('data');
-
-                    chrome.storage.sync.set({'value': xhr.responseText}, function() {
-                        // Notify that we saved.
-                        console.log('Settings saved');
-                    });
-                }
-                catch(Exception){
-                    console.log(keyCheck);
-
-                    var items =  [];
-
-					items.push({'date': d.getDate(), 'temp': temperature , 'mood': button_pressed});
-
-
-                    chrome.storage.sync.set({'data': items}, function() {
-                        // Notify that we saved.
-                        console.log('Settings saved');
-                    });
-
-                    chrome.storage.sync.get('data', function(item){
-                        console.log("Retrieve" + JSON.stringify(item))
-                    });
-
-
-				}*/
-
-
-
-
             }
-        }; // Implemented elsewhere.
+        };
         xhr.open("GET", url, true);
         xhr.send();
     };
 
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-
-
 };
