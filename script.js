@@ -68,10 +68,36 @@ var geoSuccess = function(position) {
     console.log(air_url);
     API_DATA.air_data = airInfo(air_url)
     condition = API_DATA.weather_data.weather[0].description;
+    console.log(condition);
+
+
+
     if(condition.indexOf("cloud")){
-        document.getElementById("weather-image").src="https://static.pexels.com/photos/158163/clouds-cloudporn-weather-lookup-158163.jpeg";
+        //document.getElementById("weather-image").src="https://static.pexels.com/photos/158163/clouds-cloudporn-weather-lookup-158163.jpeg";
+        $('#weather-image').ready(function() {
+
+            // increase the 500 to larger values to lengthen the duration of the fadeout
+            // and/or fadein
+            $('#weather-image').fadeOut(500, function() {
+                $('#weather-image').attr("src","https://static.pexels.com/photos/158163/clouds-cloudporn-weather-lookup-158163.jpeg");
+                $('#weather-image').fadeIn(500);
+            });
+
+        });
+
     }else if(condition.indexOf("haze") || condition.indexOf("rain") || condition.indexOf("mist") || condition.indexOf("thunder")){
-        document.getElementById("weather-image").src="http://superdimension.net/gifs/animated/334.gif";
+        //document.getElementById("weather-image").src="http://superdimension.net/gifs/animated/334.gif";
+        $('#weather-image').ready(function() {
+
+            // increase the 500 to larger values to lengthen the duration of the fadeout
+            // and/or fadein
+            $('#weather-image').fadeOut(500, function() {
+                $('#weather-image').attr("src","http://superdimension.net/gifs/animated/334.gif");
+                $('#weather-image').fadeIn(500);
+            });
+
+        });
+
     }else if(condition.indexOf("clear")){
         document.getElementById("weather-image").src="http://i.imgur.com/dr6mFGY.gif";
     }else{
