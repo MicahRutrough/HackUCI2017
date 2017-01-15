@@ -16,7 +16,7 @@ chrome.alarms.create(alarmName,
 ////////////////////////////////////////////////////////
 var askQuestion = function()
 {
-	var win = window.open("graph/graph.html", '_blank');
+	var win = window.open("window.html", '_blank');
 	win.focus();
 }
 
@@ -46,7 +46,8 @@ window.addEventListener('onload', function(event)
 ////////////////////////////////////////////////////////
 chrome.browserAction.onClicked.addListener(function(tab)
 {
-	askQuestion();
+    var win = window.open("graph/graph.html", '_blank');
+    win.focus();
 
 
 });

@@ -5,7 +5,7 @@ $(document).ready(function()
 
 });
 
-var dateadd = 15;
+var dateadd = 0;
 
 var OpenWeatherConstants = {
 
@@ -211,8 +211,9 @@ function run_save(buttoncode)
 
 function invokeGetInfo(weatherInfo, airInfo, distance, buttoncode) {
     console.log("Went into invoke");
+    var dayLength = (weatherInfo.sys.sunset - weatherInfo.sys.sunrise) / (60 * 60);
     var object_value = {'date' : dateString, 'temp': weatherInfo.main.temp , 'mood': buttoncode, "weather_description" : weatherInfo.weather[0].description,
-        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : Math.floor(distance), "sunset" : weatherInfo.sys.sunset};
+        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : Math.floor(distance), "sunset" : dayLength};
     console.log(object_value);
 
     var jsonfile = {};
