@@ -5,7 +5,7 @@ $(document).ready(function()
 
 });
 
-var dateadd = 5;
+var dateadd = 15;
 
 var OpenWeatherConstants = {
 

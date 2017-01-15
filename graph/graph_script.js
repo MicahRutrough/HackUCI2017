@@ -111,7 +111,7 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 		if (json_keys.length < 6)
 		{
 			var warn = document.getElementById("warn");
-			warn.innerHTML = "YOU MUST ANSWER FOR AT LEAST TWO DAYS TO SEE GRAPHS";
+			warn.innerHTML = "SORRY :( YOU MUST ANSWER FOR AT LEAST TWO DAYS TO SEE STATS";
 		}
 		
 		for (v in json_values)
