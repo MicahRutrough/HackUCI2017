@@ -131,18 +131,21 @@ navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 
 function weatherInfo(w_url){
     var weather_connection = new XMLHttpRequest();
+    weather_connection.open("GET", w_url, false);
 
     //Here is all of the weather stuff
     var weather_response = null;
 
-    weather_connection.onreadystatechange = function() {
+    weather_connection.onload = function(e) {
         if (weather_connection.readyState == 4 && weather_connection.status == 200) {
             weather_response = JSON.parse(weather_connection.responseText);
         }
     };
 
-    weather_connection.open("GET", w_url, false);
-    weather_connection.send();
+    weather_connection.error = function(e){
+        console.error(weather_connection)
+    }
+    weather_connection.send(null);
 
     return weather_response;
 
@@ -151,15 +154,20 @@ function weatherInfo(w_url){
 
 function airInfo(a_url){
     var air_connection = new XMLHttpRequest();
+    air_connection.open("GET", a_url, false);
+
     var air_response = null;
-    air_connection.onreadystatechange = function () {
+    air_connection.onload = function (e) {
         if (air_connection.readyState == 4 && air_connection.status == 200){
             air_response = JSON.parse(air_connection.responseText);
         }
     };
 
-    air_connection.open("GET", a_url, false);
-    air_connection.send();
+    air_connection.error = function(e){
+        console.error(weather_connection)
+    };
+    air_connection.send(null);
+
     return air_response;
 }
 
