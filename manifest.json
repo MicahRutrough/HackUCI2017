@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "Hello, World!",
+	"name": "Mood Tracker",
 	"description": "This is a test chrome app for HackUci",
 	"version": "0.1",
 	"manifest_version": 2,

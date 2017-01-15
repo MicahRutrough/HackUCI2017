@@ -19,9 +19,15 @@ var OpenWeatherConstants = {
 };
 
 var GMAP_BASE_URL = "http://maps.google.com/maps/api/geocode/json?address=";
+
 var OpenAirConstants = {
     AIR_QUALITY_BASE_URL: "http://api.breezometer.com/baqi/?",
     AIR_QUALITY_API_KEY: "key=f3e5d52a386b433f828b1a5683a612ec",
+}
+
+var API_DATA = {
+    weather_data : null,
+    air_data : null
 }
 
 var monthNames = [
@@ -30,9 +36,6 @@ var monthNames = [
     "August", "September", "October",
     "November", "December"
 ];
-
-
-
 
 var classname = document.getElementsByClassName("moodbutton");
 
@@ -46,135 +49,128 @@ for (var i = 0; i < classname.length; i++) {
 }
 
 
-var clicked_already = false;
+var todaysDate = new Date();
+var key = todaysDate.toISOString().substring(0, 10);
+var dateString = todaysDate.toISOString().substring(0, 10);
+
+
+var geoSuccess = function(position) {
+    startPos = position;
+    var weather_url = OpenWeatherConstants.WEATHER_BASE_URL + OpenWeatherConstants.LAT + startPos.coords.latitude + "&" +
+        OpenWeatherConstants.LON + startPos.coords.longitude + "&" + OpenWeatherConstants.WEATHER_APP_KEY + "&" +
+        OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
+    console.log(weather_url);
+    API_DATA.weather_data = weatherInfo(weather_url);
+
+
+    var air_url = OpenAirConstants.AIR_QUALITY_BASE_URL + "lat="+ startPos.coords.latitude + "&lon="+
+        startPos.coords.longitude + "&" + OpenAirConstants.AIR_QUALITY_API_KEY;
+    console.log(air_url);
+    API_DATA.air_data = airInfo(air_url)
+
+};
+var geoError = function(error) {
+    console.log('Error occurred. Error code: ' + error.code);
+};
+
+var geoOptions = {
+    timeout: 10 * 1000
+};
+
+navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+
+
+
+
+function weatherInfo(w_url){
+    var weather_connection = new XMLHttpRequest();
+
+    //Here is all of the weather stuff
+    var weather_response = null;
+
+    weather_connection.onreadystatechange = function() {
+        if (weather_connection.readyState == 4 && weather_connection.status == 200) {
+            weather_response = JSON.parse(weather_connection.responseText);
+        }
+    };
+
+    weather_connection.open("GET", w_url, false);
+    weather_connection.send();
+
+    return weather_response;
+
+}
+
+
+function airInfo(a_url){
+    var air_connection = new XMLHttpRequest();
+    var air_response = null;
+    air_connection.onreadystatechange = function () {
+        if (air_connection.readyState == 4 && air_connection.status == 200){
+            air_response = JSON.parse(air_connection.responseText);
+        }
+    };
+
+    air_connection.open("GET", a_url, false);
+    air_connection.send();
+    return air_response;
+}
+
 function run_save(buttoncode)
 {
 
-	if (!clicked_already)
-	{
-		clicked_already = true;
-	}
-	else
-	{
-		return
-	}
+    chrome.storage.sync.get(key, function (temp1) {
+        if(Object.keys(temp1).length === 0 && temp1.constructor === Object){
+            console.log("Key not found");
+            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data, buttoncode);
+        }
+        else{
+            console.log("Key found");
+            console.log("The button was already pressed. Replacing")
 
-	var apiCalls = 4;
-	var api_done = function()
-	{
-		apiCalls --;
-		if (apiCalls == 0)
-		{
-			//window.close();
-		}
-	}
+            chrome.storage.sync.remove(key, function (temp1) {
+                console.log(JSON.stringify(temp1));
+
+            });
+
+            chrome.storage.sync.get(null, function (temp) {
+                console.log(JSON.stringify(temp));
+
+            });
+            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data, buttoncode);
+
+        }
+    });
+
+
+
 
     var startPos;
-    var geoOptions = {
-        timeout: 10 * 1000
-    };
-
-    var geoSuccess = function(position) {
-        startPos = position;
-        var weather_url = OpenWeatherConstants.WEATHER_BASE_URL + OpenWeatherConstants.LAT + startPos.coords.latitude + "&" +
-            OpenWeatherConstants.LON + startPos.coords.longitude + "&" + OpenWeatherConstants.WEATHER_APP_KEY + "&" +
-			OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
-        console.log(weather_url);
 
 
-        var air_url = OpenAirConstants.AIR_QUALITY_BASE_URL + "lat="+ startPos.coords.latitude + "&lon="+
-            startPos.coords.longitude + "&" + OpenAirConstants.AIR_QUALITY_API_KEY;
-        console.log(air_url);
-
-        invokeGetInfo(weather_url, air_url);
-		api_done()
-    };
-    var geoError = function(error) {
-        console.log('Error occurred. Error code: ' + error.code);
-		api_done()
-    };
-
-    var invokeGetInfo = function (w_url, a_url) {
-        var weather_connection = new XMLHttpRequest();
-        var air_connection = new XMLHttpRequest();
-
-        //Here is all of the weather stuff
-        var weather_response;
-        var weather_temp;
-        var weather_condition;
-        var weather_description;
-
-        //Here is all of the air stuff
-        var air_response;
-        var air_description;
-        var air_aqi;
-
-        // Date information. Here is where you change the date things
-        var todaysDate = new Date();
-        var key = todaysDate.toISOString();
-        var day = todaysDate.getDate();
-        var monthIndex = todaysDate.getMonth();
-        var twoDigitsYear = parseInt(todaysDate.getFullYear().toString().substr(2,2), 10);
-        var dateString = todaysDate.toISOString().substring(0, 10);
-
-        weather_connection.onreadystatechange = function() {
-            if (weather_connection.readyState == 4 && weather_connection.status == 200) {
-                weather_response = JSON.parse(weather_connection.responseText);
-                weather_temp = weather_response.main.temp;
-                weather_condition = weather_response.weather;
-                weather_description = weather_response.weather[0].description;
-
-                console.log("Weather");
-                console.log(weather_response);
-                console.log(weather_description);
-            }
-        };
 
 
-        air_connection.onreadystatechange = function () {
-            if (air_connection.readyState == 4 && air_connection.status == 200){
-                air_response = JSON.parse(air_connection.responseText);
-                air_description = air_response.breezometer_description;
-                air_aqi = air_response.breezometer_aqi;
 
-
-                console.log("AIR");
-                console.log(air_response);
-                console.log(air_description);
-            }
-        };
-
-        weather_connection.open("GET", w_url, false);
-        air_connection.open("GET", a_url, false);
-
-        weather_connection.send();
-        air_connection.send();
-
-
-        var object_value = {'date' : dateString, 'temp': weather_temp , 'mood': buttoncode, "weather_description" : weather_description,
-            "air_description" : air_description, "air_index":air_aqi};
-        console.log(object_value);
-
-        var jsonfile = {};
-        jsonfile[key] = object_value;
-
-        chrome.storage.sync.set(jsonfile, function() {
-            // Notify that we saved.
-            console.log('Settings saved');
-			api_done()
-        });
-
-        chrome.storage.sync.get(null, function (temp) {
-            console.log(JSON.stringify(temp));
-			api_done()
-        });
-    };
-
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-	api_done()
 };
 
+function invokeGetInfo(weatherInfo, airInfo, buttoncode) {
+    console.log("Went into invoke");
+    var object_value = {'date' : dateString, 'temp': weatherInfo.main.temp , 'mood': buttoncode, "weather_description" : weatherInfo.weather[0].description,
+        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi};
+    console.log(object_value);
 
+    var jsonfile = {};
+    jsonfile[key] = object_value;
+
+    chrome.storage.sync.set(jsonfile, function() {
+        // Notify that we saved.
+        console.log('Settings saved');
+    });
+
+    chrome.storage.sync.get(null, function (temp) {
+        console.log(JSON.stringify(temp));
+    });
+};
 
 function fetchCoordsFromAddress(address) {
     address = address.replace(/\s/g, "+");
