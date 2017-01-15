@@ -1,9 +1,11 @@
 var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 {
-	var margin = {top: 10, right: 10, bottom: 50, left: 200},
-	width  = 960 - margin.left - margin.right,
+	console.log(JSON.stringify(data));
+	
+	var margin = {top: 10, right: 50, bottom: 50, left: 50},
+	width  = 950 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
-
+	
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 	var x = d3.time.scale().range([0, width]),
@@ -110,9 +112,31 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 			delimeter = ",";
 		}
 		json_string += "]";
-		console.log(json_string);
 		draw_graph(JSON.parse(json_string), var1, var2, color1=color1, color2=color2);
 	});
+	//draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
 }
 
 drawJsonGraph("mood","temp",color1="#9465d4",color2="red")
+
+document.getElementById("but_temp").addEventListener('click', function()
+{
+	delete_graph();
+	drawJsonGraph("mood", "temp", color1="#9465d4", color2="red");
+});
+document.getElementById("but_aq").addEventListener('click', function()
+{
+	delete_graph();
+	drawJsonGraph("mood", "air_index", color1="#9465d4", color2="blue");
+});
+document.getElementById("but_dis").addEventListener('click', function()
+{
+	delete_graph();
+	drawJsonGraph("mood", "distance", color1="#9465d4", color2="green");
+});
+
+var delete_graph = function()
+{
+	d3.select("svg").remove();
+}
+

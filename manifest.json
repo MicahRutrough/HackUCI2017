@@ -6,7 +6,7 @@
 	"manifest_version": 2,
 	"browser_action":
 	{
-		"default_icon": "smile-16.png"
+		"default_icon": "icon-16.png"
 	},
 	"background":
 	{

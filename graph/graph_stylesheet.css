@@ -1,7 +1,14 @@
 body
 {
-	font: 12px Arial;
-	background-color: #eee;
+	background:url("http://www.designbolts.com/wp-content/uploads/2012/12/simple-pattern-white-seamless-website-background.jpg")
+	no-repeat center center;
+	display: block;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-attachment: fixed;
+
 }
 
 .axis path,
