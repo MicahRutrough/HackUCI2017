@@ -5,7 +5,7 @@ $(document).ready(function()
 
 });
 
-var dateadd = 4;
+var dateadd = 5;
 
 var OpenWeatherConstants = {
 
@@ -317,8 +317,8 @@ get_info();
 var getDistance = function (lat1, lon1, lat2, lon2)
 {
     var R = 6378.1; // km
-    var dLat = toRad(38.2527-lat1);
-    var dLon = toRad(-85.7585-lon1);
+    var dLat = toRad(lat2-lat1);
+    var dLon = toRad(lon2-lon1);
     var lat1 = toRad(lat1);
     var lat2 = toRad(lat2);
 
