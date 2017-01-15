@@ -23,12 +23,12 @@ var GMAP_BASE_URL = "http://maps.google.com/maps/api/geocode/json?address=";
 var OpenAirConstants = {
     AIR_QUALITY_BASE_URL: "http://api.breezometer.com/baqi/?",
     AIR_QUALITY_API_KEY: "key=f3e5d52a386b433f828b1a5683a612ec",
-}
+};
 
 var API_DATA = {
     weather_data : null,
     air_data : null
-}
+};
 
 var monthNames = [
     "January", "February", "March",
@@ -198,47 +198,40 @@ function fetchCoordsFromAddress(address) {
     return coordJson;
 }
 
-var get_info = function()
-{
-	var json_array;
-	chrome.storage.sync.get(null, function (temp)
-	{
-		json_array = temp;
-		console.log(temp);
-		if (!temp["name"] || !temp["addr"])
-		{
-			$('#my_popup').popup("show");
-		}
-		if (temp["name"] && temp["addr"])
-		{
-			var title = document.getElementById("name_title");
-			title.innerHTML = "Hello, " + temp["name"];
-			var name = document.getElementById("get_name");
-			var addr = document.getElementById("get_address");
-			name.value = temp["name"];
-			addr.value  = temp["addr"];
-		}
-	});
+var get_info = function() {
+    var json_array;
+    chrome.storage.sync.get(null, function (temp) {
+        json_array = temp;
+        console.log(temp);
+        if (!temp["name"] || !temp["addr"]) {
+            $('#my_popup').popup("show");
+        }
+        if (temp["name"] && temp["addr"]) {
+            var title = document.getElementById("name_title");
+            title.innerHTML = "Hello, " + temp["name"];
+            var name = document.getElementById("get_name");
+            var addr = document.getElementById("get_address");
+            name.value = temp["name"];
+            addr.value = temp["addr"];
+        }
+    });
 
-	document.getElementById("close_popup").addEventListener('click', function()
-	{
-		var name = document.getElementById("get_name").value;
-		var addr = document.getElementById("get_address").value;
-		if (name=="" || addr == "")
-		{
-			 $( "#my_popup" ).effect( "shake" );
+    document.getElementById("close_popup").addEventListener('click', function () {
+        var name = document.getElementById("get_name").value;
+        var addr = document.getElementById("get_address").value;
+        if (name == "" || addr == "") {
+            $("#my_popup").effect("shake");
             $(".popup_error").text("Please enter the name and address");
-             $(".popup_error").addClass("visible");
-			 return;
-		}
-		json_array["name"] = name;
-		json_array["addr"] = addr;
+            $(".popup_error").addClass("visible");
+            return;
+        }
+        json_array["name"] = name;
+        json_array["addr"] = addr;
 
-		var coordJson = fetchCoordsFromAddress(addr);
+        var coordJson = fetchCoordsFromAddress(addr);
 
-		if(coordJson != null) {
-            chrome.storage.sync.set(json_array, function()
-            {
+        if (coordJson != null) {
+            chrome.storage.sync.set(json_array, function () {
                 // Notify that we saved.
                 console.log('Settings saved');
             });
@@ -247,14 +240,13 @@ var get_info = function()
             $(".popup_error").removeClass("visible");
             $('#my_popup').popup("hide");
         } else {
-            $( "#my_popup" ).effect( "shake" );
+            $("#my_popup").effect("shake");
             $(".popup_error").text("Please enter a real address");
             $(".popup_error").addClass("visible");
             return;
         }
 
-	});
+    });
 }
-
 get_info();
 
