@@ -24,7 +24,7 @@ h4
 	text-align: center;
 }
 .container{
-	margin-top:150px;
+	margin-top:110px;
 	text-align:center;
 	margin-right: auto;
 	margin-left:auto;
@@ -89,4 +89,54 @@ input
   margin-left: 200px ;
   width: 100px;
   font-family:'Lobster',Georgia, serif;
+}
+
+#nav {
+	background-color: #222;
+	width:220px;
+	padding-right:20px;
+
+}
+#nav_wrapper {
+	text-align:center;
+	margin-right:auto;
+	margin-left:auto;
+
+}
+#nav ul {
+
+	padding: 0;
+	margin: 0;
+	position: relative;
+	min-width: 220px;
+}
+#nav ul li {
+	display: inline-block;
+}
+#nav ul li:hover {
+	background-color: #333;
+}
+#nav ul li a {
+	color: #CCC;
+	display: block;
+	text-decoration: none;
+	height:40px;
+	font-size:22px;
+	border-radius:10%;
+}
+#nav ul li:hover ul {
+	display: block;
+}
+#nav ul ul {
+	display: none;
+	background-color: #333;
+	border: 5px solid #222;
+	border-top: 0;
+
+}
+#nav ul ul li {
+	display: block;
+}
+#nav ul ul li a:hover {
+	color: #699;
 }
