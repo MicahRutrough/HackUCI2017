@@ -19,3 +19,9 @@ body
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
+
+.sbutton
+{
+	display:inline;
+	float:left;
+}
