@@ -5,7 +5,7 @@ $(document).ready(function()
 
 });
 
-var dateadd = 0;
+var dateadd = 4;
 
 var OpenWeatherConstants = {
 
@@ -54,6 +54,7 @@ for (var i = 0; i < classname.length; i++) {
 
 
 var todaysDate = new Date();
+todaysDate.setDate(todaysDate.getDate() + dateadd);
 var key = todaysDate.toISOString().substring(0, 10);
 var dateString = todaysDate.toISOString().substring(0, 10);
 
@@ -211,7 +212,7 @@ function run_save(buttoncode)
 function invokeGetInfo(weatherInfo, airInfo, distance, buttoncode) {
     console.log("Went into invoke");
     var object_value = {'date' : dateString, 'temp': weatherInfo.main.temp , 'mood': buttoncode, "weather_description" : weatherInfo.weather[0].description,
-        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : distance, "sunset" : weatherInfo.sys.sunset};
+        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : Math.floor(distance), "sunset" : weatherInfo.sys.sunset};
     console.log(object_value);
 
     var jsonfile = {};

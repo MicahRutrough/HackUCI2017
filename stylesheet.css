@@ -104,18 +104,18 @@ input
 }
 .graph-button{
 	background-color: black;
-	font-family:'Lobster',Georgia, serif;
+	font-family:Ariel,Georgia, serif;
 	text-align:center;
-	font-weight:bold;
+	/*font-weight:bold;*/
 	margin-top:20px;
 }
 .graph-button:hover{
 	color: red;
 	background:black;
 	transform: translate(0px,3px);
-	font-family:'Lobster',Georgia, serif;
+	font-family:Ariel,Georgia, serif;
 	text-align:center;
-	font-weight:bold;
+	/*font-weight:bold;*/
 	width:130px;
 }
 .row{

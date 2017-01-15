@@ -11,6 +11,9 @@
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="graph_stylesheet.css">
 	<body>
+	<div class = "col-md-12">
+				<a class = "btn btn-default btn-lg graph-button" href = "window.html"><i class="fa fa-line-chart" aria-hidden="true"></i>HOME</a>
+			</div>
 	<div id="drop_down">
 	<div class = "row">
 			<div class = "col-md-12">
@@ -19,15 +22,13 @@
 						<ul>
 							<li> <a href="#"><i class="fa fa-line-chart" aria-hidden="true"></i>Variables</a>
 								<ul>
-									<li><a href="#" id="but_temp"><i class="fa fa-thermometer-empty" aria-hidden="true"></i>Temp.</a>
+									<li><a href="#" id="but_temp"><i class="fa fa-thermometer-empty" aria-hidden="true"></i>Temperature</a>
 									</li>
-									<li><a href="#" id="but_cloud"><i class="fa fa-cloud" aria-hidden="true"></i>Clouds</a>
+									<li><a href="#" id="but_ssn"><i class="fa fa-sun-o" aria-hidden="true"></i>Day Length</a>
 									</li>
-									<li><a href="#" id="but_rain"><i class="fa fa-tint" aria-hidden="true"></i>Rain</a>
+									<li><a href="#" id="but_aq"><i class="fa fa-skyatlas" aria-hidden="true"></i>Air Quality</a>
 									</li>
-									<li><a href="#" id="but_aq"><i class="fa fa-skyatlas" aria-hidden="true"></i>Air Qual.</a>
-									</li>
-									<li><a href="#" id="but_dist"><i class="fa fa-plane" aria-hidden="true"></i>Dist.</a>
+									<li><a href="#" id="but_dist"><i class="fa fa-plane" aria-hidden="true"></i>Distance</a>
 									</li>
 								</ul>
 							</li>
@@ -37,9 +38,12 @@
 			</div>
 		</div>
 		</div>
+		<h1 id="warn" style = "font-family: times;"></h1>
 		<div id="labelBox"><h3 style="color:#8361e2; display:inline;">Mood</h3><h3 style="display:inline;"> : </h3><h3 id="current_label" style="display:inline">Temperature</h3></div>
+	 
 	 <script type = "text/javascript" src="d3.v2.js"></script>
-	 <script type = "text/javascript" src="pseudodata.js""></script>
+	 <script type = "text/javascript" src="pseudodata.js"></script>
 	 <script type='text/javascript' src='graph_script.js'></script>
+	 
 	</body>
 </html>

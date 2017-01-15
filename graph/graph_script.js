@@ -5,7 +5,6 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 		var moods = [":C",":(",":/",":I",":j",":)",":D"];
 		return moods[mood];
 	}
-	console.log(JSON.stringify(data));
 	
 	var margin = {top: 10, right: 50, bottom: 50, left: 50},
 	width  = 950 - margin.left - margin.right,
@@ -26,7 +25,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 		.interpolate("monotone")
 		.x(function(d) { return x(d.date); })
 		.y0(height)
-		.y1(function(d) { return y(d[var1]); });
+		.y1(function(d) { return y(6-d[var1]); });
 		
 	var area2 = d3.svg.area()
 		.interpolate("monotone")
@@ -63,7 +62,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 	x.domain(d3.extent(data.map(function(d) { return d.date; })));
 	
 	//Draw left graph
-	var gmax = d3.max(data.map(function(d) { return d[var1]; }));
+	var gmax = d3.max(data.map(function(d) { return 6-d[var1]; }));
 	y.domain([0, 6]);
 	focus.append("path")
        .datum(data)
@@ -102,15 +101,22 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 
 var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 {
-	/*chrome.storage.sync.get(null, function(items)
+	chrome.storage.sync.get(null, function(items)
 	{
 		var json_values = Object.values(items);
 		var json_keys = Object.keys(items);
 		var delimeter = "";
 		var json_string = "[";
+		
+		if (json_keys.length < 6)
+		{
+			var warn = document.getElementById("warn");
+			warn.innerHTML = "YOU MUST ANSWER FOR AT LEAST TWO DAYS TO SEE GRAPHS";
+		}
+		
 		for (v in json_values)
 		{
-			if (json_keys[v] == "name" || json_keys[v] == "addr" || json_keys[v] == "dist" || json_keys[v] == "home_latitude" || json_keys[v] == "longitude")
+			if (json_keys[v] == "name" || json_keys[v] == "addr" || json_keys[v] == "dist" || json_keys[v] == "home_latitude" || json_keys[v] == "home_longitude")
 				continue;
 			json_string += delimeter;
 			json_string += JSON.stringify(json_values[v]);
@@ -118,12 +124,12 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 		}
 		json_string += "]";
 		draw_graph(JSON.parse(json_string), var1, var2, color1=color1, color2=color2);
-	});*/
-	draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
+	});
+	//draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
 }
 var mood_col = "#8361e2";
 
-drawJsonGraph("mood","temp",color1=mood_col,color2="red")
+drawJsonGraph("mood","temp",color1=mood_col,color2="#551155")
 
 console.log(document.getElementById("but_temp"));
 
@@ -132,34 +138,24 @@ var delete_graph = function()
 	d3.select("svg").remove();
 }
 var graphlabel = document.getElementById("current_label");
-graphlabel.style="display:inline; color: red;"
+graphlabel.style="display:inline; color: #994499;"
 document.getElementById("but_temp").addEventListener("click", 
         function (event) {
             event.preventDefault();
             delete_graph();
 			graphlabel.innerHTML = "Temperature";
+			graphlabel.style="display:inline; color: #994499;"
+			drawJsonGraph("mood", "temp", color1=mood_col, color2="#994499");
+        }, 
+        false);
+		
+document.getElementById("but_ssn").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Length of Day";
 			graphlabel.style="display:inline; color: red;"
-			drawJsonGraph("mood", "temp", color1=mood_col, color2="red");
-        }, 
-        false);
-		
-document.getElementById("but_cloud").addEventListener("click", 
-        function (event) {
-            event.preventDefault();
-            delete_graph();
-			graphlabel.innerHTML = "Cloudiness";
-			graphlabel.style="display:inline; color: #888;"
-			drawJsonGraph("mood", "rain", color1=mood_col, color2="#888");
-        }, 
-        false);
-		
-document.getElementById("but_rain").addEventListener("click", 
-        function (event) {
-            event.preventDefault();
-            delete_graph();
-			graphlabel.innerHTML = "Rainfall";
-			graphlabel.style="display:inline; color: blue;"
-			drawJsonGraph("mood", "rain", color1=mood_col, color2="blue");
+			drawJsonGraph("mood", "sunset", color1=mood_col, color2="red");
         }, 
         false);
 
@@ -182,5 +178,3 @@ document.getElementById("but_dist").addEventListener("click",
 			drawJsonGraph("mood", "dist", color1=mood_col, color2="lime");
         }, 
         false);
-
-
