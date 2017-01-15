@@ -110,7 +110,7 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 		var json_string = "[";
 		for (v in json_values)
 		{
-			if (json_keys[v] == "name" || json_keys[v] == "addr")
+			if (json_keys[v] == "name" || json_keys[v] == "addr" || json_keys[v] == "dist" || json_keys[v] == "home_latitude" || json_keys[v] == "longitude")
 				continue;
 			json_string += delimeter;
 			json_string += JSON.stringify(json_values[v]);
@@ -121,28 +121,66 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 	});*/
 	draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
 }
-var mood_col = "#000000";
+var mood_col = "#8361e2";
 
 drawJsonGraph("mood","temp",color1=mood_col,color2="red")
 
-document.getElementById("but_temp").addEventListener('click', function()
-{
-	delete_graph();
-	drawJsonGraph("mood", "temp", color1=mood_col, color2="red");
-});
-document.getElementById("but_aq").addEventListener('click', function()
-{
-	delete_graph();
-	drawJsonGraph("mood", "air_index", color1=mood_col, color2="blue");
-});
-document.getElementById("but_dis").addEventListener('click', function()
-{
-	delete_graph();
-	drawJsonGraph("mood", "distance", color1=mood_col, color2="green");
-});
+console.log(document.getElementById("but_temp"));
 
 var delete_graph = function()
 {
 	d3.select("svg").remove();
 }
+var graphlabel = document.getElementById("current_label");
+graphlabel.style="display:inline; color: red;"
+document.getElementById("but_temp").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Temperature";
+			graphlabel.style="display:inline; color: red;"
+			drawJsonGraph("mood", "temp", color1=mood_col, color2="red");
+        }, 
+        false);
+		
+document.getElementById("but_cloud").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Cloudiness";
+			graphlabel.style="display:inline; color: #888;"
+			drawJsonGraph("mood", "rain", color1=mood_col, color2="#888");
+        }, 
+        false);
+		
+document.getElementById("but_rain").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Rainfall";
+			graphlabel.style="display:inline; color: blue;"
+			drawJsonGraph("mood", "rain", color1=mood_col, color2="blue");
+        }, 
+        false);
+
+document.getElementById("but_aq").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Air quality";
+			graphlabel.style="display:inline; color: orange;"
+			drawJsonGraph("mood", "air_index", color1=mood_col, color2="orange");
+        }, 
+        false);
+		
+document.getElementById("but_dist").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            delete_graph();
+			graphlabel.innerHTML = "Distance From Home";
+			graphlabel.style="display:inline; color: lime;"
+			drawJsonGraph("mood", "dist", color1=mood_col, color2="lime");
+        }, 
+        false);
+
 

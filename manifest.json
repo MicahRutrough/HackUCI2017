@@ -3,6 +3,8 @@
 	"name": "MoodGraffr",
 	"description": "Track your mood over time, and in relation to external factors!",
 	"version": "1.0",
+	"icons": { "16": "icon-16.png",
+          "128": "icon-128.png" },
 	"manifest_version": 2,
 	"options_page": "window.html",
 	"browser_action":

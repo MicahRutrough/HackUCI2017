@@ -20,8 +20,155 @@ body
     shape-rendering: crispEdges;
 }
 
-.sbutton
+h1{
+	font-family:'Lobster',Georgia, serif;
+	font-size:45px;
+}
+h4,h3
 {
-	display:inline;
-	float:left;
+	font-family:'Lobster',Georgia, serif;
+	text-align: center;
+}
+
+#menu
+{
+	text-align: center;
+}
+.container{
+	margin-top:110px;
+	text-align:center;
+	margin-right: auto;
+	margin-left:auto;
+	font-family: 'Roboto',Georgia, serif;
+}
+
+.btn-default{
+	border-color: black;
+	display: inline-block;
+	box-shadow: 0 17px 20px -10px rgba(0,0,0,0.4);
+	background:#e74c3c;
+	color: #ecf0f1;
+	border-width: 0;
+	cursor: pointer;
+	line-height: normal;
+	position: relative;
+	transition: all ease-in-out 300ms;
+	width:120px;
+	height:35px;
+	text-align: center;
+	margin: 0.7%;
+}
+img{
+	border-radius:45%;
+	max-width:400px;
+	max-height:250px;
+	padding: 1.0%;
+}
+.btn-default:hover{
+	background: #e74c3c;
+	box-shadow: 0 57px 20px -20px rgba(0,0,0,0.3);
+	transform: translate(0px,-3px);
+}
+
+i{
+	padding: 3%;
+	margin:1px;
+}
+
+.my_popup_open
+{
+		font-family:'Lobster',Georgia, serif;
+}
+
+#my_popup
+{
+	background-color: #ddd;
+	width: 30%;
+	height: 40%;
+	border-radius: 24px;
+	font-family:'Lobster',Georgia, serif;
+}
+
+input
+{
+	width: 150px;
+	font-family:'Lobster',Georgia, serif;
+}
+
+.close_popup
+{
+  margin-left: 35% ;
+  width: 100px;
+  font-family:'Lobster',Georgia, serif;
+}
+
+#nav {
+	background-color: #222;
+	width:220px;
+	padding-right:20px;
+}
+#nav_wrapper {
+	text-align:center;
+	margin-right:auto;
+	margin-left:auto;
+
+}
+#nav ul {
+
+	padding: 0;
+	margin: 0;
+	position: relative;
+	min-width: 220px;
+}
+#nav ul li {
+	display: block;
+}
+#nav ul li:hover {
+	background-color: #222;
+}
+#nav ul li a {
+	color: #CCC;
+	display: block;
+	text-decoration: none;
+	height:40px;
+	font-size:22px;
+	border-radius:10%;
+}
+#nav ul li:hover ul {
+	display: block;
+}
+#nav ul ul {
+	display: none;
+	background-color: #222;
+	border: 5px solid #222;
+	border-top: 0;
+
+}
+#nav ul ul li {
+	display: block;
+}
+#nav ul ul li a:hover {
+	color: #699;
+}
+
+.popup_error {
+    color: red;
+    visibility: hidden;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.visible {
+    visibility: visible;
+}
+
+#drop_down
+{
+	float:right;
+	padding:30px;
+}
+
+#labelBox
+{
+	margin-left: 400px;
 }
