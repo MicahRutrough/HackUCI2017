@@ -211,7 +211,7 @@ function run_save(buttoncode)
 function invokeGetInfo(weatherInfo, airInfo, distance, buttoncode) {
     console.log("Went into invoke");
     var object_value = {'date' : dateString, 'temp': weatherInfo.main.temp , 'mood': buttoncode, "weather_description" : weatherInfo.weather[0].description,
-        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : distance};
+        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : distance, "sunset" : weatherInfo.sys.sunset};
     console.log(object_value);
 
     var jsonfile = {};
