@@ -16,7 +16,7 @@ chrome.alarms.create(alarmName,
 ////////////////////////////////////////////////////////
 var askQuestion = function()
 {
-	var win = window.open("window.html", '_blank');
+	var win = window.open("graph/graph.html", '_blank');
 	win.focus();
 }
 

@@ -1,9 +1,10 @@
 {
 	"manifest_version": 2,
-	"name": "Hello, World!",
-	"description": "This is a test chrome app for HackUci",
-	"version": "0.1",
+	"name": "MoodGraffr",
+	"description": "Track your mood over time, and in relation to external factors!",
+	"version": "1.0",
 	"manifest_version": 2,
+	"options_page": "window.html",
 	"browser_action":
 	{
 		"default_icon": "icon-16.png"
