@@ -56,17 +56,27 @@ var dateString = todaysDate.toISOString().substring(0, 10);
 
 var geoSuccess = function(position) {
     startPos = position;
+    var condition;
     var weather_url = OpenWeatherConstants.WEATHER_BASE_URL + OpenWeatherConstants.LAT + startPos.coords.latitude + "&" +
         OpenWeatherConstants.LON + startPos.coords.longitude + "&" + OpenWeatherConstants.WEATHER_APP_KEY + "&" +
         OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
     console.log(weather_url);
     API_DATA.weather_data = weatherInfo(weather_url);
 
-
     var air_url = OpenAirConstants.AIR_QUALITY_BASE_URL + "lat="+ startPos.coords.latitude + "&lon="+
         startPos.coords.longitude + "&" + OpenAirConstants.AIR_QUALITY_API_KEY;
     console.log(air_url);
     API_DATA.air_data = airInfo(air_url)
+    condition = API_DATA.weather_data.weather[0].description;
+    if(condition.indexOf("cloud")){
+        document.getElementById("weather-image").src="https://static.pexels.com/photos/158163/clouds-cloudporn-weather-lookup-158163.jpeg";
+    }else if(condition.indexOf("haze") || condition.indexOf("rain") || condition.indexOf("mist") || condition.indexOf("thunder")){
+        document.getElementById("weather-image").src="http://superdimension.net/gifs/animated/334.gif";
+    }else if(condition.indexOf("clear")){
+        document.getElementById("weather-image").src="http://i.imgur.com/dr6mFGY.gif";
+    }else{
+        document.getElementById("weather-image").src="http://i.imgur.com/dr6mFGY.gif";
+    }
 
 };
 var geoError = function(error) {
