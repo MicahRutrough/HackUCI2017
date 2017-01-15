@@ -20,14 +20,18 @@ var OpenWeatherConstants = {
 
 var GMAP_BASE_URL = "http://maps.google.com/maps/api/geocode/json?address=";
 
+var HOME_LATITUDE, HOME_LONGITUDE;
+
 var OpenAirConstants = {
     AIR_QUALITY_BASE_URL: "http://api.breezometer.com/baqi/?",
     AIR_QUALITY_API_KEY: "key=f3e5d52a386b433f828b1a5683a612ec",
 };
 
+
 var API_DATA = {
     weather_data : null,
-    air_data : null
+    air_data : null,
+    dist_data : null,
 };
 
 var monthNames = [
@@ -63,10 +67,18 @@ var geoSuccess = function(position) {
     console.log(weather_url);
     API_DATA.weather_data = weatherInfo(weather_url);
 
+    var distance = getDistance(startPos.coords.latitude, startPos.coords.longitude,
+        HOME_LATITUDE, HOME_LONGITUDE);
+
+    API_DATA.dist_data = distance;
+
+
+
     var air_url = OpenAirConstants.AIR_QUALITY_BASE_URL + "lat="+ startPos.coords.latitude + "&lon="+
         startPos.coords.longitude + "&" + OpenAirConstants.AIR_QUALITY_API_KEY;
     console.log(air_url);
-    API_DATA.air_data = airInfo(air_url)
+    API_DATA.air_data = airInfo(air_url);
+    API_DATA.air_data = airInfo(air_url);
     condition = API_DATA.weather_data.weather[0].description;
     console.log(condition);
 
@@ -117,7 +129,6 @@ navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 
 
 
-
 function weatherInfo(w_url){
     var weather_connection = new XMLHttpRequest();
 
@@ -158,7 +169,7 @@ function run_save(buttoncode)
     chrome.storage.sync.get(key, function (temp1) {
         if(Object.keys(temp1).length === 0 && temp1.constructor === Object){
             console.log("Key not found");
-            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data, buttoncode);
+            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data, API_DATA.dist_data, buttoncode);
         }
         else{
             console.log("Key found");
@@ -173,7 +184,7 @@ function run_save(buttoncode)
                 console.log(JSON.stringify(temp));
 
             });
-            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data, buttoncode);
+            invokeGetInfo(API_DATA.weather_data,API_DATA.air_data,API_DATA.dist_data, buttoncode);
 
         }
     });
@@ -189,10 +200,10 @@ function run_save(buttoncode)
 
 };
 
-function invokeGetInfo(weatherInfo, airInfo, buttoncode) {
+function invokeGetInfo(weatherInfo, airInfo, distance, buttoncode) {
     console.log("Went into invoke");
     var object_value = {'date' : dateString, 'temp': weatherInfo.main.temp , 'mood': buttoncode, "weather_description" : weatherInfo.weather[0].description,
-        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi};
+        "air_description" : airInfo.breezometer_description, "air_index":airInfo.breezometer_aqi, "dist" : distance};
     console.log(object_value);
 
     var jsonfile = {};
@@ -249,7 +260,11 @@ var get_info = function() {
             var addr = document.getElementById("get_address");
             name.value = temp["name"];
             addr.value = temp["addr"];
+            HOME_LATITUDE = temp["home_latitude"];
+            HOME_LONGITUDE = temp["home_longitude"]
         }
+
+
     });
 
     document.getElementById("close_popup").addEventListener('click', function () {
@@ -261,12 +276,15 @@ var get_info = function() {
             $(".popup_error").addClass("visible");
             return;
         }
-        json_array["name"] = name;
-        json_array["addr"] = addr;
+
 
         var coordJson = fetchCoordsFromAddress(addr);
 
         if (coordJson != null) {
+            json_array["name"] = name;
+            json_array["addr"] = addr;
+            json_array["home_latitude"] = coordJson["latitude"];
+            json_array["home_longitude"] = coordJson["longitude"];
             chrome.storage.sync.set(json_array, function () {
                 // Notify that we saved.
                 console.log('Settings saved');
@@ -286,3 +304,24 @@ var get_info = function() {
 }
 get_info();
 
+
+var getDistance = function (lat1, lon1, lat2, lon2)
+{
+    var R = 6378.1; // km
+    var dLat = toRad(38.2527-lat1);
+    var dLon = toRad(-85.7585-lon1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d/1.6;
+}
+
+// Converts numeric degrees to radians
+function toRad(Value)
+{
+    return Value * Math.PI / 180;
+}
