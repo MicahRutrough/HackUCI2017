@@ -1,5 +1,10 @@
 var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 {
+	var format_mood = function(mood)
+	{
+		var moods = [":C",":(",":/",":I",":j",":)",":D"];
+		return moods[mood];
+	}
 	console.log(JSON.stringify(data));
 	
 	var margin = {top: 10, right: 50, bottom: 50, left: 50},
@@ -12,7 +17,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 		y = d3.scale.linear().range([height, 25]);
 
 	var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-		yAxisLeft = d3.svg.axis().scale(y).orient("left"),
+		yAxisLeft = d3.svg.axis().scale(y).orient("left").ticks(7).tickFormat(format_mood),
 		yAxisRight = d3.svg.axis().scale(y).orient("right");
 
 	var brush = d3.svg.brush().on("brush", brushed);
@@ -59,7 +64,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 	
 	//Draw left graph
 	var gmax = d3.max(data.map(function(d) { return d[var1]; }));
-	y.domain([0, gmax*1.2]);
+	y.domain([0, 6]);
 	focus.append("path")
        .datum(data)
        .attr("clip-path", "url(#clip)")
@@ -68,7 +73,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 	   .attr("stroke-width", 2)
 	   .attr("stroke", color1);
 	   
-	  focus.append("g")
+	focus.append("g")
        .attr("class", "y axis")
 	   .style("fill",color1)
        .call(yAxisLeft);
@@ -97,7 +102,7 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 
 var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 {
-	chrome.storage.sync.get(null, function(items)
+	/*chrome.storage.sync.get(null, function(items)
 	{
 		var json_values = Object.values(items);
 		var json_keys = Object.keys(items);
@@ -113,26 +118,27 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 		}
 		json_string += "]";
 		draw_graph(JSON.parse(json_string), var1, var2, color1=color1, color2=color2);
-	});
-	//draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
+	});*/
+	draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
 }
+var mood_col = "#000000";
 
-drawJsonGraph("mood","temp",color1="#9465d4",color2="red")
+drawJsonGraph("mood","temp",color1=mood_col,color2="red")
 
 document.getElementById("but_temp").addEventListener('click', function()
 {
 	delete_graph();
-	drawJsonGraph("mood", "temp", color1="#9465d4", color2="red");
+	drawJsonGraph("mood", "temp", color1=mood_col, color2="red");
 });
 document.getElementById("but_aq").addEventListener('click', function()
 {
 	delete_graph();
-	drawJsonGraph("mood", "air_index", color1="#9465d4", color2="blue");
+	drawJsonGraph("mood", "air_index", color1=mood_col, color2="blue");
 });
 document.getElementById("but_dis").addEventListener('click', function()
 {
 	delete_graph();
-	drawJsonGraph("mood", "distance", color1="#9465d4", color2="green");
+	drawJsonGraph("mood", "distance", color1=mood_col, color2="green");
 });
 
 var delete_graph = function()
