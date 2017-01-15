@@ -72,8 +72,8 @@ i{
 #my_popup
 {
 	background-color: #ddd;
-	width: 500px;
-	height: 300px;
+	width: 30%;
+	height: 40%;
 	border-radius: 24px;
 	font-family:'Lobster',Georgia, serif;
 }
@@ -86,7 +86,7 @@ input
 
 .close_popup
 {
-  margin-left: 200px ;
+  margin-left: 35% ;
   width: 100px;
   font-family:'Lobster',Georgia, serif;
 }
@@ -139,4 +139,15 @@ input
 }
 #nav ul ul li a:hover {
 	color: #699;
+}
+
+.popup_error {
+    color: red;
+    visibility: hidden;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.visible {
+    visibility: visible;
 }

@@ -181,26 +181,25 @@ function fetchCoordsFromAddress(address) {
     var gMapUrl = GMAP_BASE_URL + address;
     var xhr = new XMLHttpRequest();
     var latitude, longitude;
+    var service_passed = false;
+    var coordJson = null;
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
 
             var json = JSON.parse(xhr.responseText);
 
-          //  if(json["results"] && json["results"]["geometry"] && json["results"]["geometry"]["location"]) {
-
+            if(json['status'] == "OK") {
                 latitude = json["results"][0]["geometry"]["location"]["lat"];
                 longitude = json["results"][0]["geometry"]["location"]["lng"];
-
-                var url = OpenWeatherConstants.BASE_URL + OpenWeatherConstants.LAT + latitude + "&" +
-                    OpenWeatherConstants.LON + longitude + "&" + OpenWeatherConstants.APP_KEY + "&" +
-                    OpenWeatherConstants.UNITS + OpenWeatherConstants.FAHRENHEIT;
-         //   }
+                coordJson = {'latitude' : latitude, 'longitude' : longitude};
+            }
 
         }
     };
-    xhr.open("GET", gMapUrl, true);
+    xhr.open("GET", gMapUrl, false);
     xhr.send();
+    return coordJson;
 }
 
 var get_info = function()
@@ -232,20 +231,34 @@ var get_info = function()
 		if (name=="" || addr == "")
 		{
 			 $( "#my_popup" ).effect( "shake" );
-			 return
+            $(".popup_error").text("Please enter the name and address");
+             $(".popup_error").addClass("visible");
+			 return;
 		}
 		json_array["name"] = name;
 		json_array["addr"] = addr;
-		chrome.storage.sync.set(json_array, function()
-		{
-			// Notify that we saved.
-			console.log('Settings saved');
-        });
-		var title = document.getElementById("name_title");
-		title.innerHTML = "Hello, " + name;
-		$('#my_popup').popup("hide");
+
+		var coordJson = fetchCoordsFromAddress(addr);
+
+		if(coordJson != null) {
+            chrome.storage.sync.set(json_array, function()
+            {
+                // Notify that we saved.
+                console.log('Settings saved');
+            });
+            var title = document.getElementById("name_title");
+            title.innerHTML = "Hello, " + name;
+            $(".popup_error").removeClass("visible");
+            $('#my_popup').popup("hide");
+        } else {
+            $( "#my_popup" ).effect( "shake" );
+            $(".popup_error").text("Please enter a real address");
+            $(".popup_error").addClass("visible");
+            return;
+        }
+
 	});
 }
 
-get_info()
+get_info();
 
