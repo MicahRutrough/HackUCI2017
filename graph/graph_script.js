@@ -103,7 +103,6 @@ var draw_graph = function(data, var1, var2, color1='red', color2='blue')
 
 var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 {
-		/*
 	chrome.storage.sync.get(null, function(items)
 	{
 		var json_values = Object.values(items);
@@ -127,8 +126,8 @@ var drawJsonGraph = function(var1, var2, color1='red', color2='blue')
 		}
 		json_string += "]";
 		draw_graph(JSON.parse(json_string), var1, var2, color1=color1, color2=color2);
-	})*/
-	draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
+	})
+	//draw_graph(JSON.parse(PSEUDO_DATA), var1, var2, color1=color1, color2=color2);
 }
 var mood_col = "#8361e2";
 
